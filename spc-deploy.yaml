@@ -28,3 +28,12 @@
         group: springbootuser
         mode: '500'
         state: file
+    - name: Copy the service file to remote server.
+      copy:
+        dest: /etc/systemd/system/springpetclinic.service
+        src: springpetclinic.service
+    - name: enable and start springpetclinic
+      systemd:
+        name: springpetclinic.service
+        enabled: yes
+        state: started
