@@ -1,0 +1,31 @@
+---
+- name:springpetclinic installation
+  hosts:all
+  become:yes
+  tasks:
+    - name:install java
+      apt:
+        name:openjdk-11-jdk
+        update_cache:yes
+        state:present
+    - name: create directory
+      file:
+        src:/usr/share/springpetclinic
+        state:directory
+    - name: download springpetclinic
+      get_url:
+        url:https://referenceapplicationskhaja.s3-us-west-2.amazonaws.com/spring-petclinic-2.4.2.jar
+        dest:/usr/share/springpetclinic/spring-petclinic-2.4.2.jar
+    - name: add springbootuser
+      user: springbootuser
+      password:springbootuser
+      state:present
+    - name: Change file ownership, group and permissions
+      file:
+       path:/usr/share/springpetclinic/spring-petclinic-2.4.2.jar
+       owner:springbootuser
+       group:springbootuser
+       mode:'500'
+       state:file
+
+  
